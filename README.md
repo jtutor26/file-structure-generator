@@ -1,5 +1,7 @@
 # file-structure-generator
 
+![Python package](https://github.com/jtutor26/file-structure-generator/actions/workflows/python-package.yml/badge.svg)
+
 A Python CLI tool that scans a directory and generates a markdown-friendly tree view.
 The tool writes the output to a file (default: tree.md) wrapped in a code fence so it can be pasted directly into documentation.
 
