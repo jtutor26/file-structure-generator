@@ -8,6 +8,9 @@ version = "0.1.0"
 description = "A CLI tool that generates a file structure in markdown."
 requires-python = ">=3.8"
 
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
 [project.scripts]
 generate-tree = "main:main"
 
