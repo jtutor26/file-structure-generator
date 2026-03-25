@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "file-structure-generator"
+version = "0.1.0"
+description = "A CLI tool that generates a file structure in markdown."
+requires-python = ">=3.8"
+
+[project.scripts]
+generate-tree = "main:main"
+
+[tool.setuptools]
+py-modules = ["main"]

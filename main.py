@@ -1,4 +1,5 @@
 from pathlib import Path
+import argparse
 
 '''
 Takes in main directory path and returns a list of all subdirectories
@@ -62,5 +63,34 @@ def tree_to_markdown(tree:str, output_file:str = "tree.md")-> None:
         file.write('\n'+message)
 
 
+def main():
+    # 1. Initialize the parser
+    parser = argparse.ArgumentParser(
+        description="Generate a markdown file tree from a directory."
+    )
+    
+    # 2. Define the expected arguments
+    parser.add_argument(
+        "path", 
+        type=str, 
+        help="The absolute or relative path to the target directory"
+    )
+    
+    # Optional: Add a flag for the output file name
+    parser.add_argument(
+        "-o", "--output", 
+        type=str, 
+        default="tree.md", 
+        help="Name of the output markdown file (default: tree.md)"
+    )
+
+    # 3. Parse the command line input
+    args = parser.parse_args()
+
+    # 4. Execute your logic using the parsed arguments
+    tree = format_tree(args.path)
+    tree_to_markdown(tree, args.output)
+
+
 if __name__ == '__main__':
-    tree_to_markdown(format_tree(str(input())))
+    main()
