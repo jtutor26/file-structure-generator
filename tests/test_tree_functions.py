@@ -1,4 +1,7 @@
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from main import format_tree, get_all_files, get_all_subdirectories, tree_to_markdown
 
