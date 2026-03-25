@@ -1,6 +1,8 @@
 from pathlib import Path
 
-'Takes in main directory path and returns a list of all subdirectories'
+'''
+Takes in main directory path and returns a list of all subdirectories
+'''
 def get_all_subdirectories(directory_path:str)-> list:
     sub_dirs = []
     main_dir = Path(directory_path)
@@ -9,7 +11,9 @@ def get_all_subdirectories(directory_path:str)-> list:
             sub_dirs.append(item)
     return sub_dirs
 
-'Takes in main directory path and returns list of all files'
+'''
+Takes in main directory path and returns list of all files
+'''
 def get_all_files(directory_path:str)->list:
     files = []
     main_dir = Path(directory_path)
@@ -18,23 +22,39 @@ def get_all_files(directory_path:str)->list:
             files.append(item)
     return files
 
-'Takes a base directory path, and starts with an initial depth of 1.'
-'Recures through each subdirctory, using the depth arg for spacing'
-'Should try adding visual branches later, so it actually looks like a tree'
-def format_tree(directory_path:str, depth:int = 1)-> str:
-    lines = []
-    indent = '  ' * depth
-    sub_dirs = get_all_subdirectories(directory_path)
-    files = get_all_files(directory_path)
-    lines.append(indent + Path(directory_path).name)
-    for file in files:
-        lines.append(indent + '  ' + file.name)
-    for dir in sub_dirs:
-        lines.append(format_tree(dir, depth + 1))
+'''
+Given a directory path, it addes each line of the tree to a list called "lines"
+It then uses recursion to loop through all subdirectories to find all files
+Then, all the lines in the "lines" list are joined with \n
+'''
+def format_tree(directory_path:str, prefix:str = '')-> str:
+    # Visual Branch Vars
+    tee       :str  = '├── '
+    last      :str  = '└── '
+    pipe      :str  = '│   '
+    empty     :str  = '    '
+    lines     :list = []
+    sub_dirs  :list = get_all_subdirectories(directory_path)
+    files      :list = get_all_files(directory_path)
+    all_items :list = files + sub_dirs
+
+    if prefix == '':
+        lines.append(Path(directory_path).name)
+
+    for i, item in enumerate(all_items):
+        is_last:bool = (i == len(all_items) - 1)
+        current_branch:str = last if is_last else tee
+        extension:str = empty if is_last else pipe
+        lines.append(prefix + current_branch + item.name)
+        if item in sub_dirs:
+            lines.append(format_tree(item, prefix + extension))
 
     return '\n'.join(lines)
 
-'Takes a tree from the format tree function and writes it to a md file.'
+
+'''
+Takes a tree from the format tree function and writes it to a md file.
+'''
 def tree_to_markdown(tree:str, output_file:str = "tree.md")-> None:
     message = 'Copy the Snippet above (including backtics) to import to your README!'
     with open(output_file, "w") as file:
